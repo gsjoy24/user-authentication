@@ -5,14 +5,11 @@ const createUser = async (req: Request, res: Response) => {
   try {
     const userData = req.body;
     const result = await UserServices.createUserIntoDB(userData);
-    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-    const { password, orders, ...userDataWithoutPasswordAndOrders } =
-      result.toObject();
 
     res.status(201).json({
       success: true,
       message: 'User created successfully!',
-      data: userDataWithoutPasswordAndOrders,
+      data: result,
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
@@ -39,8 +36,26 @@ const getAllUsers = async (req: Request, res: Response) => {
     });
   }
 };
+const getSingleUser = async (req: Request, res: Response) => {
+  try {
+    const userId = Number(req.params.userId);
+    const result = await UserServices.getSingleUserFromDB(userId);
+    res.status(201).json({
+      success: true,
+      message: 'Users fetched successfully!',
+      data: result,
+    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    res.status(400).json({
+      success: false,
+      message: error?.message || 'Something went wrong!',
+    });
+  }
+};
 
 export const userControllers = {
   createUser,
   getAllUsers,
+  getSingleUser,
 };

@@ -83,7 +83,7 @@ const userSchema = new Schema<TUser>({
   orders: [ordersSchema],
 });
 
-//! pre save middleware/hook || hashing password
+// hashing the password
 userSchema.pre('save', async function (next) {
   // eslint-disable-next-line @typescript-eslint/no-this-alias
   const user = this;
@@ -91,6 +91,18 @@ userSchema.pre('save', async function (next) {
     user.password,
     Number(config.bcrypt_salt_round),
   );
+  next();
+});
+
+// removing the password from the returning data
+userSchema.post('save', function (doc, next) {
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+  const { password, orders, ...userDataWithoutPassword } = this.toObject();
+  this.set('password', undefined, { strict: false });
+  this.set('orders', undefined, { strict: false });
+
+  // Update the document with userDataWithoutPassword
+  Object.assign(this, userDataWithoutPassword);
   next();
 });
 
