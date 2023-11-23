@@ -11,4 +11,5 @@ app.get('/', (req, res) => {
     message: 'Server is running!',
   });
 });
+
 export default app;
