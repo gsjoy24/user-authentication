@@ -13,7 +13,10 @@ const getAllUsersFromDB = async (): Promise<TUser[] | null> => {
   return result;
 };
 const getSingleUserFromDB = async (userId: number): Promise<TUser | null> => {
-  const result = await User.findOne({ userId }).select('-password');
+  const result = await User.isUserExists(userId);
+  if (!result) {
+    throw new Error('User not found!');
+  }
   return result;
 };
 export const UserServices = {

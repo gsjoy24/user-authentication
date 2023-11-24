@@ -47,9 +47,13 @@ const getSingleUser = async (req: Request, res: Response) => {
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    res.status(400).json({
+    res.status(404).json({
       success: false,
       message: error?.message || 'Something went wrong!',
+      error: {
+        code: 404,
+        description: error?.message,
+      },
     });
   }
 };

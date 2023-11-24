@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import { Schema, model } from 'mongoose';
-import { TOrder, TUser } from './user/user.interface';
+import { TOrder, TUser, UserModel } from './user/user.interface';
 import config from '../config';
 
 const ordersSchema = new Schema<TOrder>(
@@ -24,7 +24,7 @@ const ordersSchema = new Schema<TOrder>(
   { _id: false },
 );
 
-const userSchema = new Schema<TUser>({
+const userSchema = new Schema<TUser, UserModel>({
   userId: {
     type: Number,
     required: [true, 'User id is required!'],
@@ -113,5 +113,11 @@ userSchema.post('save', function (doc, next) {
   next();
 });
 
-const User = model<TUser>('User', userSchema);
+// creating custom static method
+userSchema.statics.isUserExists = async function (userId: number) {
+  const existingUser = await User.findOne({ userId });
+  return existingUser;
+};
+
+const User = model<TUser, UserModel>('User', userSchema);
 export default User;
