@@ -132,6 +132,51 @@ const addOrder = async (req: Request, res: Response) => {
     });
   }
 };
+
+const getOrders = async (req: Request, res: Response) => {
+  try {
+    const userId = Number(req.params.userId);
+    const result = await UserServices.getOrdersFromDB(userId);
+    res.status(200).json({
+      success: true,
+      message: 'Order fetched successfully!',
+      data: result,
+    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    res.status(404).json({
+      success: false,
+      message: error?.message || 'Something went wrong!',
+      error: {
+        code: 404,
+        description: error?.message,
+      },
+    });
+  }
+};
+const calculateTotalPrice = async (req: Request, res: Response) => {
+  try {
+    const userId = Number(req.params.userId);
+    const totalPrice = await UserServices.calculateTotalPrice(userId);
+    res.status(200).json({
+      success: true,
+      message: 'Total price calculated successfully!',
+      data: {
+        totalPrice,
+      },
+    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    res.status(404).json({
+      success: false,
+      message: error?.message || 'Something went wrong!',
+      error: {
+        code: 404,
+        description: error?.message,
+      },
+    });
+  }
+};
 export const userControllers = {
   createUser,
   getAllUsers,
@@ -139,4 +184,6 @@ export const userControllers = {
   updateUser,
   deleteUser,
   addOrder,
+  getOrders,
+  calculateTotalPrice,
 };
