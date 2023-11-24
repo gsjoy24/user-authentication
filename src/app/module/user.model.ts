@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt';
 import { Schema, model } from 'mongoose';
-import { TOrder, TUser, UserModel } from './user/user.interface';
+import { TProduct, TUser, UserModel } from './user/user.interface';
 import config from '../config';
 
-const ordersSchema = new Schema<TOrder>(
+const ordersSchema = new Schema<TProduct>(
   {
     productName: {
       type: String,

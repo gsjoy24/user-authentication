@@ -1,6 +1,6 @@
 import { Model } from 'mongoose';
 
-export type TOrder = {
+export type TProduct = {
   productName: string;
   price: number;
   quantity: number;
@@ -23,7 +23,7 @@ export type TUser = {
     city: string;
     country: string;
   };
-  orders?: TOrder[];
+  orders?: TProduct[];
 };
 
 export interface UserModel extends Model<TUser> {

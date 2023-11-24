@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { UserServices } from './user.service';
-import { TUser } from './user.interface';
+import { TProduct, TUser } from './user.interface';
 
 const createUser = async (req: Request, res: Response) => {
   try {
@@ -109,10 +109,34 @@ const deleteUser = async (req: Request, res: Response) => {
   }
 };
 
+const addOrder = async (req: Request, res: Response) => {
+  try {
+    const productData: TProduct = req.body;
+    const userId: number = Number(req.params.userId);
+    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+    const result = await UserServices.addOrderInDB(userId, productData);
+    res.status(200).json({
+      success: true,
+      message: 'Order created successfully!',
+      data: null,
+    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    res.status(404).json({
+      success: false,
+      message: error?.message || 'Something went wrong!',
+      error: {
+        code: 404,
+        description: error?.message,
+      },
+    });
+  }
+};
 export const userControllers = {
   createUser,
   getAllUsers,
   getSingleUser,
   updateUser,
   deleteUser,
+  addOrder,
 };
