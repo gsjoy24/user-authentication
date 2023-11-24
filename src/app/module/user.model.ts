@@ -112,10 +112,22 @@ userSchema.post('save', function (doc, next) {
   Object.assign(this, userDataWithoutPassword);
   next();
 });
+userSchema.post('save', function (doc, next) {
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+  const { password, orders, ...userDataWithoutPassword } = this.toObject();
+  this.set('password', undefined, { strict: false });
+  this.set('orders', undefined, { strict: false });
+
+  // Update the document with userDataWithoutPassword
+  Object.assign(this, userDataWithoutPassword);
+  next();
+});
 
 // creating custom static method
 userSchema.statics.isUserExists = async function (userId: number) {
-  const existingUser = await User.findOne({ userId });
+  const existingUser = await User.findOne({ userId }).select(
+    '-password -__v -orders',
+  );
   return existingUser;
 };
 
