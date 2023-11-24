@@ -40,9 +40,9 @@ const getSingleUser = async (req: Request, res: Response) => {
   try {
     const userId = Number(req.params.userId);
     const result = await UserServices.getSingleUserFromDB(userId);
-    res.status(201).json({
+    res.status(200).json({
       success: true,
-      message: 'Users fetched successfully!',
+      message: 'User fetched successfully!',
       data: result,
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

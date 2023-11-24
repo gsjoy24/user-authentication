@@ -13,7 +13,7 @@ const getAllUsersFromDB = async (): Promise<TUser[] | null> => {
   return result;
 };
 const getSingleUserFromDB = async (userId: number): Promise<TUser | null> => {
-  const result = await User.findOne({ userId });
+  const result = await User.findOne({ userId }).select('-password');
   return result;
 };
 export const UserServices = {

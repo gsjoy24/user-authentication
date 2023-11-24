@@ -3,19 +3,26 @@ import { Schema, model } from 'mongoose';
 import { TOrder, TUser } from './user/user.interface';
 import config from '../config';
 
-const ordersSchema = new Schema<TOrder>({
-  productName: {
-    type: String,
-    required: [true, 'Product name is required!'],
-    trim: true,
+const ordersSchema = new Schema<TOrder>(
+  {
+    productName: {
+      type: String,
+      required: [true, 'Product name is required!'],
+      trim: true,
+    },
+    price: {
+      type: Number,
+      required: [true, 'User id is required!'],
+      trim: true,
+    },
+    quantity: {
+      type: Number,
+      required: [true, 'User id is required!'],
+      trim: true,
+    },
   },
-  price: { type: Number, required: [true, 'User id is required!'], trim: true },
-  quantity: {
-    type: Number,
-    required: [true, 'User id is required!'],
-    trim: true,
-  },
-});
+  { _id: false },
+);
 
 const userSchema = new Schema<TUser>({
   userId: {
@@ -94,7 +101,7 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-// removing the password from the returning data
+// removing the password from the returning data for user creation.
 userSchema.post('save', function (doc, next) {
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   const { password, orders, ...userDataWithoutPassword } = this.toObject();
