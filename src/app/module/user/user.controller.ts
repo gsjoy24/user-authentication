@@ -1,10 +1,23 @@
 import { Request, Response } from 'express';
 import { UserServices } from './user.service';
 import { TProduct, TUser } from './user.interface';
+import {
+  productValidationSchema,
+  userValidationSchema,
+} from './user.joi.validation';
 
 const createUser = async (req: Request, res: Response) => {
   try {
     const userData = req.body;
+    // validating user data with joi
+    const { error } = userValidationSchema.validate(userData);
+    if (error) {
+      res.status(400).json({
+        success: false,
+        message: error.details[0].message || 'Something went wrong!',
+      });
+      return;
+    }
     const result = await UserServices.createUserIntoDB(userData);
 
     res.status(200).json({
@@ -64,6 +77,15 @@ const updateUser = async (req: Request, res: Response) => {
   try {
     const userId: number = Number(req.params.userId);
     const dataToUpdate: TUser = req.body;
+    // validating user data with joi
+    const { error } = userValidationSchema.validate(dataToUpdate);
+    if (error) {
+      res.status(400).json({
+        success: false,
+        message: error.details[0].message || 'Something went wrong!',
+      });
+      return;
+    }
     const result = await UserServices.updateUserDataFromDB(
       userId,
       dataToUpdate,
@@ -112,6 +134,15 @@ const deleteUser = async (req: Request, res: Response) => {
 const addOrder = async (req: Request, res: Response) => {
   try {
     const productData: TProduct = req.body;
+    // validating user data with joi
+    const { error } = productValidationSchema.validate(productData);
+    if (error) {
+      res.status(400).json({
+        success: false,
+        message: error.details[0].message || 'Something went wrong!',
+      });
+      return;
+    }
     const userId: number = Number(req.params.userId);
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     const result = await UserServices.addOrderInDB(userId, productData);
