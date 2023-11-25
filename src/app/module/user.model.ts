@@ -100,6 +100,15 @@ userSchema.pre('save', async function (next) {
   );
   next();
 });
+userSchema.pre('findOneAndUpdate', async function (next) {
+  const user = this.getUpdate() as TUser;
+  user.password = await bcrypt.hash(
+    user.password,
+    Number(config.bcrypt_salt_round),
+  );
+
+  next();
+});
 
 // removing the password from the returning data for user creation.
 userSchema.post('save', function (doc, next) {
@@ -112,6 +121,7 @@ userSchema.post('save', function (doc, next) {
   Object.assign(this, userDataWithoutPassword);
   next();
 });
+
 userSchema.post('save', function (doc, next) {
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   const { password, orders, ...userDataWithoutPassword } = this.toObject();

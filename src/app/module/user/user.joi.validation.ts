@@ -32,6 +32,7 @@ export const userValidationSchema = Joi.object({
   password: Joi.string().min(8).max(20).trim().messages({
     'string.base': 'Password must be a string',
     'string.empty': 'Password cannot be empty',
+    'string.min': 'Password length must be at least 8 characters long',
     'string.max': 'Password cannot exceed {#limit} characters',
     'any.required': 'Password is required',
   }),
