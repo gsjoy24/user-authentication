@@ -96,8 +96,7 @@ const calculateTotalPrice = async (userId: number) => {
       $project: { totalPrice: 1, _id: 0 },
     },
   ]);
-
-  const totalPrice = result[0].totalPrice;
+  const totalPrice = result[0] ? result[0].totalPrice : 0;
   const fixedTotalPrice = Number(totalPrice.toFixed(2));
   return fixedTotalPrice;
 };

@@ -154,6 +154,7 @@ const getOrders = async (req: Request, res: Response) => {
     });
   }
 };
+
 const calculateTotalPrice = async (req: Request, res: Response) => {
   try {
     const userId = Number(req.params.userId);
@@ -177,6 +178,7 @@ const calculateTotalPrice = async (req: Request, res: Response) => {
     });
   }
 };
+
 export const userControllers = {
   createUser,
   getAllUsers,
