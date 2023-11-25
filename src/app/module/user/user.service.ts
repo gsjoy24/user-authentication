@@ -56,6 +56,7 @@ const addOrderInDB = async (userId: number, productData: TProduct) => {
   if (!isExist) {
     throw new Error('User not found!');
   }
+
   const result = await User.updateOne(
     { userId },
     {

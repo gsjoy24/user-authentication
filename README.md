@@ -24,7 +24,6 @@ The server listening on port 5000
     success: true,
     message: 'The server is running!',
   }
-
 ```
 * 7️⃣ To run the production version, run the command 'npm run build' to build the the project. After complete the build process, run 'npm run start:prod' to run the build or production version on the localhost.
 * 8️⃣ You can run the command 'npm run lint' to see if there is any errors on my code. You will see 3 warnings only for console.
