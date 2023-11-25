@@ -13,7 +13,7 @@ app.use('/api/users', UserRoutes);
 app.get('/', (req, res) => {
   res.status(200).json({
     success: true,
-    message: 'Server is running!',
+    message: 'The server is running!',
   });
 });
 
